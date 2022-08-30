@@ -47,10 +47,17 @@ public class AdminController {
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal){
         String email = principal.getName();
-        Admin user = adminRepository.getUserByEmail(email);
+        Admin user = adminRepository.getUserByEmail(email); 
+        List<Shop> shops = shopRepository.findAll();
+        List<Order> orders = orderRepository.findAll();
+        model.addAttribute("title", "orders");
+        model.addAttribute("user",user);
+        model.addAttribute("orders", orders);
+        model.addAttribute("type", "admin");
+        model.addAttribute("shops", shops);
         model.addAttribute("title", "admin panel");
         model.addAttribute("user",user);
-        return "admindashboard";
+        return "view_orders";
     }
     @GetMapping("/add-category")
     public String addCategory(Model model,Principal principal){
