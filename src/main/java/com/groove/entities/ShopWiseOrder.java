@@ -11,14 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 @Entity
-@Table(name = "orders")
-public class Order {
+@Table(name = "shop_wise_orders")
+public class ShopWiseOrder {
     @Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
@@ -26,21 +23,7 @@ public class Order {
 	private String name;
 	private String number;
 	private String address;
-	private String delivery_date;
-	private String status;
-    public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public String getDelivery_date() {
-		return delivery_date;
-	}
-	public void setDelivery_date(String delivery_date) {
-		this.delivery_date = delivery_date;
-	}
-	public String getAddress() {
+    public String getAddress() {
 		return address;
 	}
 	public void setAddress(String address) {
@@ -90,3 +73,4 @@ public class Order {
 		this.total = total;
 	}
 }
+

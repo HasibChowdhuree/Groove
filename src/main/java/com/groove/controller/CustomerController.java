@@ -27,6 +27,7 @@ import com.groove.entities.Customer;
 import com.groove.entities.Order;
 import com.groove.entities.Product;
 import com.groove.entities.Shop;
+import com.groove.entities.ShopWiseOrder;
 import com.groove.utilities.Cart;
 import com.groove.utilities.Message;
 import com.groove.utilities.Pair;
@@ -150,77 +151,81 @@ public class CustomerController {
 		Coupon coupon = cart.getCoupon();
 		List<Pair> pairs = cart.getProducts();
 		Order order = new Order();
+		
+		List<Product> products = new ArrayList<>();
+		int quantity = 0;
+		double total = cart.getTotal_after_charges();
+		HashMap<Integer, List<Product>> shop_product = new HashMap<>();
+		HashMap<Integer, Integer> shop_qty = new HashMap<>();
+		for (Pair pair : pairs) {
+			Product product = pair.getProduct();
+			product.setQuantity(product.getQuantity() - pair.getQuantity());
+			this.productsRepository.save(product);
+			int shopID = product.getShop().getId();
+			int qty = pair.getQuantity();
+			// for total order
+			products.add(product);
+			quantity += qty;
+
+			// creating hashmap value for each key
+			List<Product> shop_product_list = shop_product.get(shopID);
+			;
+			// if key doesnt exist set new list
+			if (shop_product_list == null) {
+				shop_product_list = new ArrayList<>();
+			}
+			// add product to value in hashmap
+			shop_product_list.add(product);
+			shop_product.put(shopID, shop_product_list);
+			if (shop_qty.get(shopID) == null)
+				shop_qty.put(shopID, qty);
+			else
+				shop_qty.put(shopID, shop_qty.get(shopID) + qty);
+		}
+		for (int shopID : shop_product.keySet()) {
+			ShopWiseOrder shop_wise_order = new ShopWiseOrder();
+			Shop shop = shopRepository.getReferenceById(shopID);
+			shop_wise_order.setProducts(shop_product.get(shopID));
+			shop_wise_order.setQuantity(shop_qty.get(shopID));
+			List<ShopWiseOrder> current_orders = shop.getOrders();
+			if (current_orders == null) {
+				current_orders = new ArrayList<>();
+			}
+			int total_shop_wise = 0;
+			for (Product product : shop_product.get(shopID)) {
+				total_shop_wise += product.getPrice();
+			}
+			if (coupon != null) {
+				List<Coupon> shop_coupons = shop.getCoupons();
+				for (Coupon coup : shop_coupons) {
+					if (coup.getName().equals(coupon.getName())) {
+						total_shop_wise -= total_shop_wise * coupon.getPercentage();
+						break;
+					}
+				}
+			}
+			shop_wise_order.setTotal(total_shop_wise);
+			shop_wise_order.setAddress(address);
+			shop_wise_order.setName(name);
+			shop_wise_order.setNumber(number);
+			current_orders.add(shop_wise_order);
+		}
+		List<Order> customer_orders = customer.getOrders();
+		if (customer_orders == null) {
+			customer_orders = new ArrayList<>();
+		}
+		customer_orders.add(order);
+		order.setProducts(products);
+		order.setQuantity(quantity);
+		order.setTotal(total);
 		order.setAddress(address);
 		order.setName(name);
 		order.setNumber(number);
-		order.setQuantity(cart.getQuantity());
-		order.setTotal(cart.getTotal_after_charges());
-		List<Product> products = new ArrayList<Product>();
-		List<Shop> shops = shopRepository.findAll();
-
-		HashMap<String, List<Product>> shop_names = new HashMap<String, List<Product>>();
-		HashMap<String, Integer> shop_qty = new HashMap<String, Integer>();
-		// HashMap<String, > shop_total = new HashMap<String, List<Product>>();
-		for(Pair pair: pairs){
-			products.add(pair.getProduct());
-			for(Shop shop: shops){
-				System.out.println(pair.getProduct().getShop());
-				if(shop.getName().equals(pair.getProduct().getShop().getName())){
-					if(shop_names.get(shop.getName())==null){
-						List<Product> prod = new ArrayList<>();
-						prod.add(pair.getProduct());
-						shop_names.put(shop.getName(),prod);
-						shop_qty.put(shop.getName(),pair.getQuantity());
-					}
-					else{
-						shop_names.get(shop.getName()).add(pair.getProduct());
-						shop_qty.put(shop.getName(),shop_qty.get(shop.getName())+pair.getQuantity());
-					}
-				}
-			}
-
-			// System.out.println(pair.getProduct().getName());
-		}
-
-		for(String shop_name:shop_names.keySet()){
-			for(Shop shop:shops){
-				if(shop.getName().equals(shop_name)){
-					List<Order> orders = shop.getOrders();
-					if(orders==null){
-						orders = new ArrayList<Order>();
-					}
-					Order ord = new Order();
-					ord.setProducts(shop_names.get(shop_name));
-					ord.setQuantity(shop_qty.get(shop_name));
-					orders.add(ord);
-					int total = 0;
-					for(Product produc:shop_names.get(shop_name)){
-						total += produc.getPrice();
-					}
-					if(shop.getCoupons().contains(coupon)){
-						total-=total*coupon.getPercentage();
-					}
-					ord.setName(customer.getName());
-					ord.setTotal(total);
-					shop.setOrders(orders);
-					shopRepository.save(shop);
-					break;
-				}
-			}
-		}
-
-		order.setProducts(products);
-		List<Order> orders = customer.getOrders();
-		if(orders==null)
-			orders = new ArrayList<>();
-		orders.add(order);
-		customer.setOrders(orders);
-		customerRepository.save(customer);
 		orderRepository.save(order);
-		// session.removeAttribute("cart");
-		model.addAttribute("cart", cart);
+		session.removeAttribute("cart");
+		// model.addAttribute("cart", cart);
 		model.addAttribute("title", "confirmed");
-		model.addAttribute("user",customer);
+		model.addAttribute("user", customer);
 		return "order_confirm";
 	}
 }

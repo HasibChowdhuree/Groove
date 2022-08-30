@@ -2,6 +2,7 @@ package com.groove.controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,11 +22,15 @@ import com.groove.dao.AdminRepository;
 import com.groove.dao.CategoryRepository;
 import com.groove.dao.OrderRepository;
 import com.groove.dao.ShopRepository;
+import com.groove.dao.UserRepository;
 import com.groove.entities.Admin;
 import com.groove.entities.Category;
 import com.groove.entities.Order;
+import com.groove.entities.Product;
 import com.groove.entities.Shop;
+import com.groove.entities.ShopOwner;
 import com.groove.utilities.Message;
+import com.groove.utilities.Pair;
 
 
 @Controller
@@ -113,6 +118,7 @@ public class AdminController {
         model.addAttribute("title", "orders");
         model.addAttribute("user",user);
         model.addAttribute("orders", orders);
+        model.addAttribute("type", "admin");
         model.addAttribute("shops", shops);
         return "view_orders";
     }
@@ -120,5 +126,35 @@ public class AdminController {
     public String admin_signup(Model model){
         model.addAttribute("title", "signup");
 		return "signup";
+    }
+    @GetMapping("/order/{id}")
+    public String single_order(Model model, Principal principal, @PathVariable int id){
+        String email = principal.getName();
+        Admin user = adminRepository.getUserByEmail(email);
+        Order order = orderRepository.getReferenceById(id);
+        List<Product> products = order.getProducts();
+        model.addAttribute("user", user);
+        model.addAttribute("products", products);
+        model.addAttribute("order", order);
+        model.addAttribute("title", "order items");
+        return "admin_single_order";
+    }
+    @PostMapping("/order/{id}")
+    public String set_single_order(Model model, Principal principal, @PathVariable int id,
+    @RequestParam("status") String status, @RequestParam("delivery_date") String delivery_date, HttpSession session){
+        String email = principal.getName();
+        Admin user = adminRepository.getUserByEmail(email);
+        Order order = orderRepository.getReferenceById(id);
+        System.out.println(delivery_date);
+        order.setDelivery_date(delivery_date);
+        order.setStatus(status);
+        this.orderRepository.save(order);
+        List<Product> products = order.getProducts();
+        model.addAttribute("user", user);
+        model.addAttribute("products", products);
+        model.addAttribute("order", order);
+        session.setAttribute("message",new Message("order updated: ","notification is-success"));
+        model.addAttribute("title", "order items");
+        return "admin_single_order";
     }
 }

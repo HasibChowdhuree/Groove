@@ -22,9 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.groove.dao.CategoryRepository;
+import com.groove.dao.OrderRepository;
 import com.groove.dao.ProductsRepository;
 import com.groove.dao.ShopOwnerRepository;
 import com.groove.dao.ShopRepository;
+import com.groove.dao.ShopWiseOrderRepository;
 import com.groove.dao.UserRepository;
 import com.groove.entities.Category;
 import com.groove.entities.Coupon;
@@ -32,6 +34,7 @@ import com.groove.entities.Order;
 import com.groove.entities.Product;
 import com.groove.entities.Shop;
 import com.groove.entities.ShopOwner;
+import com.groove.entities.ShopWiseOrder;
 import com.groove.entities.User;
 import com.groove.utilities.Message;
 
@@ -48,6 +51,8 @@ public class ShopOwnerController {
     private ShopRepository shopRepository;
     @Autowired
     private ProductsRepository productsRepository;
+    @Autowired
+    private ShopWiseOrderRepository shopWiseOrderRepository;
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal){
         String email = principal.getName();
@@ -216,7 +221,7 @@ public class ShopOwnerController {
         ShopOwner user = shopOwnerRepository.getUserByEmail(email);
         Shop shop = user.getShop();
 
-        List<Order> orders = shop.getOrders();
+        List<ShopWiseOrder> orders = shop.getOrders();
         // Order o = new Order();
         // o.setName("customer#1");
         // o.setQuantity(5);
@@ -226,10 +231,9 @@ public class ShopOwnerController {
         // orders.add(o);
         // orders.add(o);
         model.addAttribute("orders", orders);
-        System.out.println(orders.get(0).getTotal());
         // System.out.println(orders);
         model.addAttribute("user", user);
-        // model.addAttribute("orders", orders);
+        model.addAttribute("type", "shop");
         model.addAttribute("title", "view orders");
         return "view_orders";
     }
@@ -253,5 +257,17 @@ public class ShopOwnerController {
         shopRepository.save(shop);
         session.setAttribute("message",new Message("Coupon added: "+coupon.getName(),"notification is-success"));
         return new RedirectView("/shop/add-coupon");
+    }
+    @GetMapping("/order/{id}")
+    public String single_order(Model model, Principal principal, @PathVariable int id){
+        String email = principal.getName();
+        ShopOwner user = shopOwnerRepository.getUserByEmail(email);
+        ShopWiseOrder order = shopWiseOrderRepository.getReferenceById(id);
+        List<Product> products = order.getProducts();
+        model.addAttribute("user", user);
+        model.addAttribute("products", products);
+        model.addAttribute("order", order);
+        model.addAttribute("title", "order items");
+        return "single_order";
     }
 }
