@@ -1,0 +1,8 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "spring-boot.ls.problem.application-properties.PROP_DEPRECATED": "IGNORE",
+    "spring-boot.ls.problem.application-yaml.YAML_DEPRECATED_ERROR": "IGNORE",
+    "spring-boot.ls.problem.application-yaml.YAML_DEPRECATED_WARNING": "IGNORE",
+    "editor.suggest.showDeprecated": false,
+    "editor.showDeprecated": false
+}
