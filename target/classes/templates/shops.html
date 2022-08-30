@@ -9,7 +9,7 @@
     <div class="container">
         <h1 class="title has-text-centered"> Shops </h1><br>
         <div class="columns is-multiline">
-            <div th:if="${shops!=null}" th:each="shop: ${shops}" class="column is-one-half ">
+            <div th:if="${shops!=null}" th:each="shop: ${shops}" class="column is-half ">
                 <a th:href="@{/shops/{id}(id=${shop.id})}">
                     <div class="card" style="padding: 20px;">
                         <p class="title is-5" th:text="${shop.name}"></p>

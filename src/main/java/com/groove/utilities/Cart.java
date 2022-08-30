@@ -23,8 +23,8 @@ public class Cart {
 	// @GeneratedValue(strategy = GenerationType.AUTO)
 	// @Column(name = "id")
 	// private int id;
-	private double tax = 0.15;
-	private double delivery_charge = 3;
+	private double tax = 0.1;
+	private double delivery_charge = 300;
 	private String name;
     private int quantity;
     // @OneToMany(cascade = CascadeType.ALL,fetch =FetchType.LAZY)

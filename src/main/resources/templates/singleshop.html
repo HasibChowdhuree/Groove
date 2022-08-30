@@ -6,12 +6,13 @@
 
 <body>
     <p class="title has-text-centered" th:text="${shop.name}"></p>
-    <p th:text="${shop.description}"></p>
-    <br><br><br>
+
 
     </div>
 
     <div class="container">
+        <p th:text="${shop.description}"></p>
+        <br><br><br>
         <div class="columns is-multiline">
             <div th:if="${products!=null}" th:each="product: ${products}">
                 <div th:if="${product.shop.id==shop.id}">

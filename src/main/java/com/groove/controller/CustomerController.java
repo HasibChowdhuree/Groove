@@ -228,4 +228,16 @@ public class CustomerController {
 		model.addAttribute("user", customer);
 		return "order_confirm";
 	}
+	@GetMapping("/order/{id}")
+    public String single_order(Model model, Principal principal, @PathVariable int id){
+        String email = principal.getName();
+		Customer customer = customerRepository.getUserByEmail(email);
+        Order order = orderRepository.getReferenceById(id);
+        List<Product> products = order.getProducts();
+        model.addAttribute("user", customer);
+        model.addAttribute("products", products);
+        model.addAttribute("order", order);
+        model.addAttribute("title", "Invoice");
+        return "customer_single_order";
+    }
 }

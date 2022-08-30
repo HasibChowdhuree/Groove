@@ -23,6 +23,20 @@ public class ShopWiseOrder {
 	private String name;
 	private String number;
 	private String address;
+	private String delivery_date;
+	private String status;
+    public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getDelivery_date() {
+		return delivery_date;
+	}
+	public void setDelivery_date(String delivery_date) {
+		this.delivery_date = delivery_date;
+	}
     public String getAddress() {
 		return address;
 	}

@@ -180,6 +180,9 @@ public class CartController {
         Coupon coupon_obj = new Coupon();
         coupon_obj.setName(coupon);
         cart.setCoupon(coupon_obj);
+        String email = principal.getName();
+		Customer customer = customerRepository.getUserByEmail(email);
+        model.addAttribute("user", customer);
         // cart.setCoupon(coupon_obj);
         HashMap<Shop,List<Coupon>> available_coupons = new HashMap<Shop,List<Coupon>>();
         for(Pair pair: products){

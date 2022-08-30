@@ -137,7 +137,7 @@ public class ShopOwnerController {
         // shop.setProducts(current_products);
         // productsRepository.save(product);
         shopRepository.save(shop);
-        session.setAttribute("message",new Message("product added successfully","notification is-success"));
+        session.setAttribute("message",new Message("Product added successfully","notification is-success"));
         return new RedirectView("/shop/dashboard");
     }
     @GetMapping("/product/edit/{id}")
@@ -168,7 +168,7 @@ public class ShopOwnerController {
 			product.setImage(image);
 		}
         productsRepository.save(product);
-        session.setAttribute("message",new Message("product edited successfully","notification is-success"));
+        session.setAttribute("message",new Message("Product edited successfully","notification is-success"));
         return new RedirectView("/shop/dashboard");
     }
     @GetMapping("/product/delete/{id}")
@@ -190,7 +190,7 @@ public class ShopOwnerController {
         model.addAttribute("user", user);
         model.addAttribute("product", product);
         model.addAttribute("title", "edit items");
-        session.setAttribute("message",new Message("product deleted successfully","notification is-danger"));
+        session.setAttribute("message",new Message("Product deleted successfully","notification is-danger"));
         return new RedirectView("/shop/dashboard");
     }
     @GetMapping("/edit")
@@ -212,7 +212,7 @@ public class ShopOwnerController {
         shop.setName(name);
         shop.setDescription(description);
         shopRepository.save(shop);
-        session.setAttribute("message",new Message("shop info updated successfully","notification is-success"));
+        session.setAttribute("message",new Message("Shop info updated successfully","notification is-success"));
         return new RedirectView("/shop/dashboard");
     }
     @GetMapping("/orders")
@@ -235,7 +235,7 @@ public class ShopOwnerController {
         model.addAttribute("user", user);
         model.addAttribute("type", "shop");
         model.addAttribute("title", "view orders");
-        return "view_orders";
+        return "shop_view_orders";
     }
     @GetMapping("/add-coupon")
     public String add_coupon(Model model, Principal principal){

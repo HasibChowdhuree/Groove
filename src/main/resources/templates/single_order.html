@@ -10,6 +10,9 @@
         <div th:each="product: ${products}">
             <p th:text="${product.name}"></p>
             <p th:text="${product.price}"></p>
+            <p th:text="${order.name}"></p>
+            <p th:text="${order.address}"></p>
+            <p th:text="${order.status}"></p>
         </div>
     </div>
 </body>
