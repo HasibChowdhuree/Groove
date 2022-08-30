@@ -330,10 +330,10 @@ public class MainController {
 	public String singleShop(@PathVariable int id, Model model, Principal principal, HttpSession session){
 		Shop shop = shopRepository.getReferenceById(id);
 		List<Product> allProduct = productsRepository.findAll();
-		Object customer = isLogged(principal);
+		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
-		model.addAttribute("customer", customer);
+		model.addAttribute("user", user);
 		model.addAttribute("shop",shop);
 		model.addAttribute("products",allProduct);
 		return "singleshop";
@@ -341,44 +341,44 @@ public class MainController {
 	@GetMapping(value = ("/phones"))
 	public String phones(Model model, Principal principal, HttpSession session){
 		List<Product> allProduct = productsRepository.findAll();
-		Object customer = isLogged(principal);
+		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Phones");
-		model.addAttribute("customer", customer);
+		model.addAttribute("user", user);
 		model.addAttribute("products",allProduct);
 		return "phones";
 	}
 	@GetMapping(value = ("/laptops"))
 	public String laptops(Model model, Principal principal, HttpSession session){
 		List<Product> allProduct = productsRepository.findAll();
-		Object customer = isLogged(principal);
+		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Laptops");
-		model.addAttribute("customer", customer);
+		model.addAttribute("user", user);
 		model.addAttribute("products",allProduct);
 		return "laptops";
 	}
 	@GetMapping(value = ("/tablets"))
 	public String tablets(Model model, Principal principal, HttpSession session){
 		List<Product> allProduct = productsRepository.findAll();
-		Object customer = isLogged(principal);
+		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Tablets");
-		model.addAttribute("customer", customer);
+		model.addAttribute("user", user);
 		model.addAttribute("products",allProduct);
 		return "tablets";
 	}
 	@GetMapping(value = ("/accessories"))
 	public String accessories(Model model, Principal principal, HttpSession session){
 		List<Product> allProduct = productsRepository.findAll();
-		Object customer = isLogged(principal);
+		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Accessories");
-		model.addAttribute("customer", customer);
+		model.addAttribute("user", user);
 		model.addAttribute("products",allProduct);
 		return "accessories";
 	}

@@ -14,17 +14,25 @@
           <input class="input" name="name" type="text" placeholder="Search a product">
         </div>
         <div class="column is-2">
-          <div class="select" style="width: 100%;">
-            <select name="sort" style="width: 100%;">
+          <div class="select">
+            <select name="sort">
               <option selected disabled>Sort by price</option>
-              <option>Sort by price (Low to High)</option>
-              <option>Sort by price (High to Low)</option>
+              <option value="Low">Sort by price (Low to High)</option>
+              <option value="High">Sort by price (High to Low)</option>
+            </select>
+          </div>
+        </div>
+        <div class="column is-2" style="display: none !important;">
+          <div class="select">
+            <select name="search_type">
+              <option>Search Product</option>
+              <option>Search Shop</option>
             </select>
           </div>
         </div>
         <div class="column is-2">
-          <div class="select" style="width: 100%;">
-            <select name="category" style="width: 100%;">
+          <div class="select">
+            <select name="category">
               <option selected disabled>Category</option>
               <div th:each="category: ${categories}">
                 <option th:text="${category.name}"></option>
