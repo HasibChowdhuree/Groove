@@ -343,57 +343,104 @@ public class MainController {
 	@GetMapping(value = ("/shops/{id}"))
 	public String singleShop(@PathVariable int id, Model model, Principal principal, HttpSession session){
 		Shop shop = shopRepository.getReferenceById(id);
-		List<Product> allProduct = productsRepository.findAll();
-		Object user = isLogged(principal);
-		Cart cart = (Cart) session.getAttribute("cart");
-		model.addAttribute("cart", cart);
-		model.addAttribute("user", user);
-		model.addAttribute("shop",shop);
-		model.addAttribute("products",allProduct);
-		return "singleshop";
-	}
-	@GetMapping(value = ("/phones"))
-	public String phones(Model model, Principal principal, HttpSession session){
-		List<Product> allProduct = productsRepository.findAll();
 		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Phones");
 		model.addAttribute("user", user);
-		model.addAttribute("products",allProduct);
+		List<Product> products;
+		products = productsRepository.findAll();
+		model.addAttribute("cart", cart);
+		model.addAttribute("products", products);
+		List<Product> featured = new ArrayList<>();
+		for(Product product: products){
+			if(product.getShop().getId()==id){
+				featured.add(product);
+			}
+		}
+		model.addAttribute("featured",featured);
+		model.addAttribute("shop",shop);
+		return "singleshop";
+	}
+	@GetMapping(value = ("/phones"))
+	public String phones(Model model, Principal principal, HttpSession session){
+		Object user = isLogged(principal);
+		Cart cart = (Cart) session.getAttribute("cart");
+		model.addAttribute("cart", cart);
+		model.addAttribute("title", "Phones");
+		model.addAttribute("user", user);
+		List<Product> products;
+		products = productsRepository.findAll();
+		model.addAttribute("cart", cart);
+		model.addAttribute("products", products);
+		List<Product> featured = new ArrayList<>();
+		for(Product product: products){
+			if(product.getCategory().getId()==2){
+				featured.add(product);
+			}
+		}
+		model.addAttribute("featured", featured);
 		return "phones";
 	}
 	@GetMapping(value = ("/laptops"))
 	public String laptops(Model model, Principal principal, HttpSession session){
-		List<Product> allProduct = productsRepository.findAll();
+
 		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Laptops");
 		model.addAttribute("user", user);
-		model.addAttribute("products",allProduct);
+		List<Product> products;
+		products = productsRepository.findAll();
+		model.addAttribute("cart", cart);
+		model.addAttribute("products", products);
+		List<Product> featured = new ArrayList<>();
+		for(Product product: products){
+			if(product.getCategory().getId()==4){
+				featured.add(product);
+			}
+		}
+		model.addAttribute("featured", featured);
 		return "laptops";
 	}
 	@GetMapping(value = ("/tablets"))
 	public String tablets(Model model, Principal principal, HttpSession session){
-		List<Product> allProduct = productsRepository.findAll();
 		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Tablets");
 		model.addAttribute("user", user);
-		model.addAttribute("products",allProduct);
+		List<Product> products;
+		products = productsRepository.findAll();
+		model.addAttribute("cart", cart);
+		model.addAttribute("products", products);
+		List<Product> featured = new ArrayList<>();
+		for(Product product: products){
+			if(product.getCategory().getId()==3){
+				featured.add(product);
+			}
+		}
+		model.addAttribute("featured", featured);
 		return "tablets";
 	}
 	@GetMapping(value = ("/accessories"))
 	public String accessories(Model model, Principal principal, HttpSession session){
-		List<Product> allProduct = productsRepository.findAll();
 		Object user = isLogged(principal);
 		Cart cart = (Cart) session.getAttribute("cart");
 		model.addAttribute("cart", cart);
 		model.addAttribute("title", "Accessories");
 		model.addAttribute("user", user);
-		model.addAttribute("products",allProduct);
+		List<Product> products;
+		products = productsRepository.findAll();
+		model.addAttribute("cart", cart);
+		model.addAttribute("products", products);
+		List<Product> featured = new ArrayList<>();
+		for(Product product: products){
+			if(product.getCategory().getId()==5){
+				featured.add(product);
+			}
+		}
+		model.addAttribute("featured", featured);
 		return "accessories";
 	}
 }

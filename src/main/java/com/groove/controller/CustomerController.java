@@ -73,7 +73,7 @@ public class CustomerController {
 		customerRepository.save(customer);
 		model.addAttribute("cart", cart);
 		model.addAttribute("user", customer);
-		return new RedirectView("/products");
+		return new RedirectView("/customer/dashboard/");
 	}
 	@GetMapping("/delete-favorite/{id}")
 	public RedirectView view_favorite(@PathVariable int id, Model model, Principal principal,HttpServletRequest request){
