@@ -71,7 +71,7 @@
                                 <p th:text="${product.quantity}"></p>
                             </td>
                             <td>
-                                <p th:text="${'$'+product.price}"></p>
+                                <p th:text="${'৳'+product.price}"></p>
                             </td>
                             <td><a th:href="@{/product/{id}(id=${product.id})}" class="button is-success"> View </a>
                             </td>

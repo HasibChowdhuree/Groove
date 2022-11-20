@@ -9,7 +9,7 @@
 </head>
 
 <body style="margin-top: 85px !important;">
-	<a th:href="@{/product/18}"><img th:src="@{img/macbook-air-banner.png}" style="width: 100%;" alt=""></a>
+	<a th:href="@{/product/12}"><img th:src="@{img/macbook-air-banner.png}" style="width: 100%;" alt=""></a>
 	<section class="container">
 		<div class="columns  is-centered  has-text-centered">
 			<div class="column is-4" style="background-color: #fcc93a;">
@@ -31,7 +31,7 @@
 			</div>
 		</div>
 		<br><br><br>
-		<h2 class="title has-text-centered"><b>Our Featured Products</b></h2>
+		<h2 class="title is-1 has-text-centered"><b>Our Featured Products</b></h2><br><br>
 		<div class="columns is-multiline">
 			<div class="column is-3" th:each="product: ${featured}">
 				<a th:href="@{/product/{id}(id=${product.id})}">
@@ -77,7 +77,7 @@
 		</div>
 	</section>
 	<br><br><br>
-	<a th:href="@{/product/20}"><img th:src="@{img/galaxy-watch-banner.jpg}" style="width: 100%;" alt=""></a>
+	<a th:href="@{/product/11}"><img th:src="@{img/galaxy-watch-banner.jpg}" style="width: 100%;" alt=""></a>
 </body>
 <footer th:replace="base::footer">
 </footer>

@@ -76,16 +76,16 @@ public class MainController {
 		model.addAttribute("products", products);
 		List<Product> featured = new ArrayList<>();
 		for(Product product: products){
-			if(product.getId()==6 ){
+			if(product.getId()==17 ){
 				featured.add(product);
 			}
-			if(product.getId()==18 ){
+			if(product.getId()==27 ){
 				featured.add(product);
 			}
-			if(product.getId()==22 ){
+			if(product.getId()==9 ){
 				featured.add(product);
 			}
-			if(product.getId()==23 ){
+			if(product.getId()==14 ){
 				featured.add(product);
 			}
 		}
@@ -396,7 +396,7 @@ public class MainController {
 		model.addAttribute("products", products);
 		List<Product> featured = new ArrayList<>();
 		for(Product product: products){
-			if(product.getCategory().getId()==4){
+			if(product.getCategory().getId()==3){
 				featured.add(product);
 			}
 		}
@@ -416,7 +416,7 @@ public class MainController {
 		model.addAttribute("products", products);
 		List<Product> featured = new ArrayList<>();
 		for(Product product: products){
-			if(product.getCategory().getId()==3){
+			if(product.getCategory().getId()==4){
 				featured.add(product);
 			}
 		}

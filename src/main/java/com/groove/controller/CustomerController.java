@@ -224,9 +224,11 @@ public class CustomerController {
 		orderRepository.save(order);
 		session.removeAttribute("cart");
 		// model.addAttribute("cart", cart);
+		List<Order> orders = customer.getOrders();
+		model.addAttribute("orders", orders);
 		model.addAttribute("title", "confirmed");
 		model.addAttribute("user", customer);
-		return "order_confirm";
+		return "dashboard";
 	}
 	@GetMapping("/order/{id}")
     public String single_order(Model model, Principal principal, @PathVariable int id){
